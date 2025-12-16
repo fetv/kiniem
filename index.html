@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuyện tình 3 năm của chúng mình</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- CẤU HÌNH GIAO DIỆN --- */
+        :root {
+            --primary-color: #ff9a9e;
+            --bg-color: #fecfef;
+            --text-color: #555;
+            --card-bg: #fff;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
+            color: var(--text-color);
+            margin: 0;
+            padding-bottom: 50px;
+            overflow-x: hidden; /* Quan trọng để không bị thanh cuộn ngang */
+        }
+
+        /* --- HIỆU ỨNG MƯA TIM (MỚI) --- */
+        .heart-falling {
+            position: fixed; /* Cố định để luôn nhìn thấy khi cuộn */
+            top: -10vh;
+            color: #ff4d6d;
+            font-size: 20px;
+            animation: fall linear forwards;
+            z-index: 0; /* Nằm dưới nội dung */
+            pointer-events: none; /* Không che mất nút bấm */
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 50px 20px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; margin: 0; }
+        p.subtitle { font-size: 1.2rem; margin-top: 10px; }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            z-index: 1;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: white;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 5px;
+        }
+
+        .container {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+
+        .container.show { opacity: 1; transform: translateY(0); }
+        .left { left: 0; }
+        .right { left: 50%; }
+
+        .container::after {
+            content: '❤';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            right: -20px;
+            background-color: white;
+            border: 4px solid var(--primary-color);
+            top: 20px;
+            border-radius: 50%;
+            z-index: 1;
+            text-align: center;
+            line-height: 35px;
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .right::after { left: -20px; }
+
+        .content {
+            padding: 20px;
+            background-color: var(--card-bg);
+            position: relative;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .content h2 { margin: 0 0 10px 0; color: var(--primary-color); font-family: 'Dancing Script', cursive; font-size: 2rem; }
+        .date { font-weight: bold; color: #888; margin-bottom: 10px; display: block; }
+        .content img { width: 100%; border-radius: 10px; margin-top: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+
+        .left::before {
+            content: " "; height: 0; position: absolute; top: 28px; width: 0; z-index: 1; right: 30px; border: medium solid white; border-width: 10px 0 10px 10px; border-color: transparent transparent transparent white;
+        }
+        .right::before {
+            content: " "; height: 0; position: absolute; top: 28px; width: 0; z-index: 1; left: 30px; border: medium solid white; border-width: 10px 10px 10px 0; border-color: transparent white transparent transparent;
+        }
+
+        /* Nút nhạc */
+        .music-btn {
+            position: fixed; bottom: 20px; right: 20px; background: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer; z-index: 100; color: var(--primary-color); font-size: 20px; animation: spin 3s linear infinite; animation-play-state: paused;
+        }
+        .music-btn.playing { animation-play-state: running; color: #ff4d6d; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        @media screen and (max-width: 600px) {
+            .timeline::after { left: 31px; }
+            .container { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .container::before { left: 60px; border: medium solid white; border-width: 10px 10px 10px 0; border-color: transparent white transparent transparent; }
+            .left::after, .right::after { left: 15px; }
+            .right { left: 0%; }
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Happy 3rd Anniversary</h1>
+        <p class="subtitle">Hành trình 3 năm yêu thương của chúng mình ❤️</p>
+        <p style="font-size: 0.9rem; margin-top: 5px; opacity: 0.8">(Cuộn xuống để xem kỷ niệm nhé)</p>
+    </header>
+
+    <div class="timeline">
+        
+        <div class="container left">
+            <div class="content">
+                <h2>Ngày đầu tiên</h2>
+                <span class="date">14/02/2021</span>
+                <p>Ngày anh lấy hết can đảm để nói lời yêu em. Cảm ơn em vì đã gật đầu đồng ý nhé!</p>
+                <img src="https://images.unsplash.com/photo-1522673607200-1645062cd955?w=500&auto=format&fit=crop" alt="First Date">
+            </div>
+        </div>
+
+        <div class="container right">
+            <div class="content">
+                <h2>Chuyến đi đầu tiên</h2>
+                <span class="date">20/07/2021</span>
+                <p>Lần đầu bọn mình đi Đà Lạt cùng nhau. Trời mưa tầm tã nhưng vẫn rất vui vì có em.</p>
+                <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=500&auto=format&fit=crop" alt="Travel">
+            </div>
+        </div>
+
+        <div class="container left">
+            <div class="content">
+                <h2>Sinh nhật em</h2>
+                <span class="date">15/10/2022</span>
+                <p>Năm đó anh làm bánh kem tặng em nhưng hơi... cháy. Em vẫn cười tít mắt.</p>
+                <img src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?w=500&auto=format&fit=crop" alt="Birthday">
+            </div>
+        </div>
+
+        <div class="container right">
+            <div class="content">
+                <h2>Hiện tại & Tương lai</h2>
+                <span class="date">Hôm nay - 3 Năm</span>
+                <p>3 năm qua là khoảng thời gian đẹp nhất. Mong rằng 5 năm, 10 năm nữa chúng mình vẫn nắm tay nhau thế này.</p>
+                <img src="https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?w=500&auto=format&fit=crop" alt="Love">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="music-btn" onclick="toggleMusic()">
+        <i class="fas fa-music"></i>
+    </div>
+    
+    <audio id="musicPlayer" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // --- 1. HIỆU ỨNG SCROLL ---
+        const items = document.querySelectorAll('.container');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, { threshold: 0.1 });
+        items.forEach(item => observer.observe(item));
+
+        // --- 2. TẠO MƯA TIM ---
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart-falling");
+            heart.innerHTML = "❤";
+            heart.style.left = Math.random() * 100 + "vw"; // Vị trí ngẫu nhiên chiều ngang
+            heart.style.animationDuration = Math.random() * 3 + 2 + "s"; // Tốc độ rơi ngẫu nhiên
+            heart.style.opacity = Math.random(); // Độ mờ ngẫu nhiên
+            heart.style.fontSize = Math.random() * 20 + 10 + "px"; // Kích thước ngẫu nhiên
+            
+            document.body.appendChild(heart);
+
+            // Xóa tim sau khi rơi xong để nhẹ web
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+        // Cứ 300ms tạo 1 trái tim
+        setInterval(createHeart, 300);
+
+        // --- 3. XỬ LÝ NHẠC (AUTO PLAY & USER INTERACTION) ---
+        const music = document.getElementById('musicPlayer');
+        const btn = document.querySelector('.music-btn');
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                btn.classList.add('playing');
+                btn.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                music.pause();
+                btn.classList.remove('playing');
+                btn.innerHTML = '<i class="fas fa-music"></i>';
+            }
+        }
+
+        // Tự động phát nhạc khi tải trang
+        window.addEventListener('load', () => {
+            // Cố gắng phát nhạc
+            const playPromise = music.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // Autoplay thành công
+                    btn.classList.add('playing');
+                    btn.innerHTML = '<i class="fas fa-pause"></i>';
+                })
+                .catch(error => {
+                    // Autoplay bị chặn -> Chờ người dùng click bất kỳ đâu để phát
+                    document.body.addEventListener('click', function() {
+                        if(music.paused){
+                            music.play();
+                            btn.classList.add('playing');
+                            btn.innerHTML = '<i class="fas fa-pause"></i>';
+                        }
+                    }, { once: true }); // Chỉ bắt sự kiện click 1 lần đầu tiên
+                });
+            }
+        });
+    </script>
+</body>
+</html>
