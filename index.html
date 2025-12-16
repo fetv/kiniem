@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chuyện tình 3 năm của chúng mình</title>
+    <title>Kỷ niệm 3 năm yêu nhau</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        /* --- CẤU HÌNH GIAO DIỆN --- */
+        /* --- 1. CẤU HÌNH GIAO DIỆN --- */
         :root {
             --primary-color: #ff9a9e;
             --bg-color: #fecfef;
@@ -22,120 +22,81 @@
             background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
             color: var(--text-color);
             margin: 0;
-            padding-bottom: 50px;
-            overflow-x: hidden; /* Quan trọng để không bị thanh cuộn ngang */
+            padding: 0;
+            overflow-x: hidden;
         }
 
-        /* --- HIỆU ỨNG MƯA TIM (MỚI) --- */
-        .heart-falling {
-            position: fixed; /* Cố định để luôn nhìn thấy khi cuộn */
-            top: -10vh;
-            color: #ff4d6d;
-            font-size: 20px;
-            animation: fall linear forwards;
-            z-index: 0; /* Nằm dưới nội dung */
-            pointer-events: none; /* Không che mất nút bấm */
-        }
-
-        @keyframes fall {
-            to { transform: translateY(110vh) rotate(360deg); }
-        }
-
-        /* Header */
-        header {
-            text-align: center;
-            padding: 50px 20px;
+        /* --- 2. MÀN HÌNH INTRO & CHUYỂN CẢNH --- */
+        #overlay-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #1a1a1a;
+            z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
             color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            position: relative;
-            z-index: 1;
+            transition: opacity 1s ease-in-out, visibility 1s;
+        }
+        #overlay-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+        .intro-text {
+            font-family: 'Dancing Script', cursive; font-size: 2.2rem;
+            margin-bottom: 40px; text-align: center; padding: 0 20px;
+            line-height: 1.5; min-height: 60px; max-width: 800px;
         }
 
-        h1 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; margin: 0; }
-        p.subtitle { font-size: 1.2rem; margin-top: 10px; }
+        .action-btn {
+            padding: 12px 35px; font-size: 1.2rem;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            border: none; border-radius: 50px; color: white;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(255, 154, 158, 0.4);
+            transition: transform 0.3s; display: none;
+        }
+        .action-btn:hover { transform: scale(1.1); }
 
-        /* Timeline */
+        /* --- 3. TIMELINE & CONTENT --- */
+        header {
+            text-align: center; padding: 40px 20px; color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2); transition: opacity 1s;
+        }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; margin: 0; }
+        
         .timeline {
-            position: relative;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            z-index: 1;
+            position: relative; max-width: 1200px; margin: 0 auto; padding: 20px;
         }
-
         .timeline::after {
-            content: '';
-            position: absolute;
-            width: 6px;
-            background-color: white;
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -3px;
-            border-radius: 5px;
+            content: ''; position: absolute; width: 6px; background-color: white;
+            top: 0; bottom: 0; left: 50%; margin-left: -3px; border-radius: 5px;
         }
 
         .container {
-            padding: 10px 40px;
-            position: relative;
-            width: 50%;
-            box-sizing: border-box;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 1s ease;
+            padding: 10px 40px; position: relative; width: 50%; box-sizing: border-box;
+            opacity: 0; transform: translateY(50px); transition: all 0.8s ease;
         }
-
         .container.show { opacity: 1; transform: translateY(0); }
-        .left { left: 0; }
-        .right { left: 50%; }
+        .left { left: 0; } .right { left: 50%; }
 
         .container::after {
-            content: '❤';
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            right: -20px;
-            background-color: white;
-            border: 4px solid var(--primary-color);
-            top: 20px;
-            border-radius: 50%;
-            z-index: 1;
-            text-align: center;
-            line-height: 35px;
-            color: var(--primary-color);
-            font-weight: bold;
-            font-size: 18px;
+            content: '❤'; position: absolute; width: 40px; height: 40px;
+            right: -20px; background-color: white; border: 4px solid var(--primary-color);
+            top: 20px; border-radius: 50%; z-index: 1; text-align: center;
+            line-height: 35px; color: var(--primary-color); font-weight: bold; font-size: 18px;
         }
-
         .right::after { left: -20px; }
 
         .content {
-            padding: 20px;
-            background-color: var(--card-bg);
-            position: relative;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 20px 25px; background-color: var(--card-bg); position: relative;
+            border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-
         .content h2 { margin: 0 0 10px 0; color: var(--primary-color); font-family: 'Dancing Script', cursive; font-size: 2rem; }
-        .date { font-weight: bold; color: #888; margin-bottom: 10px; display: block; }
-        .content img { width: 100%; border-radius: 10px; margin-top: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .date { font-weight: bold; color: #888; margin-bottom: 10px; display: block; font-size: 0.9rem; }
+        .content img { width: 100%; border-radius: 10px; margin-top: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .content img:hover { transform: scale(1.02); }
 
-        .left::before {
-            content: " "; height: 0; position: absolute; top: 28px; width: 0; z-index: 1; right: 30px; border: medium solid white; border-width: 10px 0 10px 10px; border-color: transparent transparent transparent white;
-        }
-        .right::before {
-            content: " "; height: 0; position: absolute; top: 28px; width: 0; z-index: 1; left: 30px; border: medium solid white; border-width: 10px 10px 10px 0; border-color: transparent white transparent transparent;
-        }
+        .left::before { content: " "; height: 0; position: absolute; top: 28px; width: 0; z-index: 1; right: 30px; border: medium solid white; border-width: 10px 0 10px 10px; border-color: transparent transparent transparent white; }
+        .right::before { content: " "; height: 0; position: absolute; top: 28px; width: 0; z-index: 1; left: 30px; border: medium solid white; border-width: 10px 10px 10px 0; border-color: transparent white transparent transparent; }
 
-        /* Nút nhạc */
-        .music-btn {
-            position: fixed; bottom: 20px; right: 20px; background: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer; z-index: 100; color: var(--primary-color); font-size: 20px; animation: spin 3s linear infinite; animation-play-state: paused;
-        }
-        .music-btn.playing { animation-play-state: running; color: #ff4d6d; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .part-transition { text-align: center; padding: 40px; z-index: 10; position: relative; }
 
-        @media screen and (max-width: 600px) {
+        @media screen and (max-width: 768px) {
             .timeline::after { left: 31px; }
             .container { width: 100%; padding-left: 70px; padding-right: 25px; }
             .container::before { left: 60px; border: medium solid white; border-width: 10px 10px 10px 0; border-color: transparent white transparent transparent; }
@@ -143,54 +104,85 @@
             .right { left: 0%; }
             h1 { font-size: 2.5rem; }
         }
+
+        /* --- 4. MÀN HÌNH KẾT THÚC (FINAL OUTRO) --- */
+        #final-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, #09203f 0%, #537895 100%);
+            z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            color: white; opacity: 0; visibility: hidden; transition: opacity 1.5s ease;
+        }
+        #final-screen.visible { opacity: 1; visibility: visible; }
+        
+        .final-card {
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+            padding: 40px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center; max-width: 90%; width: 500px;
+            box-shadow: 0 0 30px rgba(255, 77, 109, 0.3);
+            transform: scale(0.8); transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #final-screen.visible .final-card { transform: scale(1); }
+        .final-card h2 { font-family: 'Dancing Script', cursive; font-size: 3rem; margin-bottom: 20px; color: #ff9a9e; }
+        .final-card p { font-size: 1.3rem; line-height: 1.8; margin-bottom: 30px; }
+
+        /* Hiệu ứng Particles */
+        .heart-falling { position: fixed; top: -10vh; color: #ff4d6d; font-size: 20px; animation: fall linear forwards; z-index: 0; pointer-events: none; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+        .heart-burst { position: absolute; bottom: 0; left: 50%; font-size: 30px; color: #ff4d6d; animation: floatUp 4s linear forwards; pointer-events: none; }
+        @keyframes floatUp { 0% { transform: translate(-50%, 0) scale(0.5); opacity: 1; } 100% { transform: translate(calc(-50% + var(--x)), -100vh) scale(1.5) rotate(var(--r)); opacity: 0; } }
+
+        .firework { position: absolute; width: 5px; height: 5px; border-radius: 50%; animation: fireworks 1.5s infinite; left: 50%; top: 50%; pointer-events: none; opacity: 0; }
+        @keyframes fireworks { 0% { transform: translate(0, 0); width: 5px; opacity: 1; box-shadow: 0 0 0 #fff; } 100% { width: 0; opacity: 0; box-shadow: -100px -100px 0 #ff9a9e, 100px -100px 0 #a6c1ee, -100px 100px 0 #fbc2eb, 100px 100px 0 #fad0c4, -50px -150px 0 #ff4d6d, 50px -150px 0 #85ffbd, 0px -200px 0 #ff9a9e; } }
+
+        /* Nút nhạc */
+        .music-btn { position: fixed; bottom: 20px; right: 20px; background: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer; z-index: 100; color: var(--primary-color); font-size: 20px; animation: spin 3s linear infinite; animation-play-state: paused; display: none; }
+        .music-btn.playing { animation-play-state: running; color: #ff4d6d; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Happy 3rd Anniversary</h1>
-        <p class="subtitle">Hành trình 3 năm yêu thương của chúng mình ❤️</p>
-        <p style="font-size: 0.9rem; margin-top: 5px; opacity: 0.8">(Cuộn xuống để xem kỷ niệm nhé)</p>
+    <div id="overlay-screen">
+        <div class="intro-text" id="overlay-text"></div>
+        <button class="action-btn" id="overlay-btn" onclick="handleButtonClick()">
+            <i class="fas fa-heart"></i> Bắt đầu
+        </button>
+    </div>
+
+    <header id="main-header" style="opacity: 0;">
+        <h1 id="header-title">Kỷ niệm của chúng mình</h1>
+        <p class="subtitle" id="header-subtitle">Hành trình 3 năm yêu thương ❤️</p>
     </header>
 
-    <div class="timeline">
+    <div class="timeline" id="timeline-wrapper">
+        <div id="part1-container"></div>
         
-        <div class="container left">
-            <div class="content">
-                <h2>Ngày đầu tiên</h2>
-                <span class="date">14/02/2021</span>
-                <p>Ngày anh lấy hết can đảm để nói lời yêu em. Cảm ơn em vì đã gật đầu đồng ý nhé!</p>
-                <img src="https://images.unsplash.com/photo-1522673607200-1645062cd955?w=500&auto=format&fit=crop" alt="First Date">
-            </div>
+        <div class="part-transition" id="btn-part2-wrapper" style="display: none;">
+            <button class="action-btn" style="display: inline-block;" onclick="triggerPart2()">
+                Phần 2: Đại học <i class="fas fa-arrow-right"></i>
+            </button>
         </div>
 
-        <div class="container right">
-            <div class="content">
-                <h2>Chuyến đi đầu tiên</h2>
-                <span class="date">20/07/2021</span>
-                <p>Lần đầu bọn mình đi Đà Lạt cùng nhau. Trời mưa tầm tã nhưng vẫn rất vui vì có em.</p>
-                <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=500&auto=format&fit=crop" alt="Travel">
-            </div>
-        </div>
+        <div id="part2-container"></div>
 
-        <div class="container left">
-            <div class="content">
-                <h2>Sinh nhật em</h2>
-                <span class="date">15/10/2022</span>
-                <p>Năm đó anh làm bánh kem tặng em nhưng hơi... cháy. Em vẫn cười tít mắt.</p>
-                <img src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?w=500&auto=format&fit=crop" alt="Birthday">
-            </div>
+        <div class="part-transition" id="btn-final-wrapper" style="display: none;">
+            <button class="action-btn" style="display: inline-block;" onclick="showFinalMessage()">
+                Gửi em đôi lời... <i class="fas fa-envelope-open-text"></i>
+            </button>
         </div>
+    </div>
 
-        <div class="container right">
-            <div class="content">
-                <h2>Hiện tại & Tương lai</h2>
-                <span class="date">Hôm nay - 3 Năm</span>
-                <p>3 năm qua là khoảng thời gian đẹp nhất. Mong rằng 5 năm, 10 năm nữa chúng mình vẫn nắm tay nhau thế này.</p>
-                <img src="https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?w=500&auto=format&fit=crop" alt="Love">
-            </div>
+    <div id="final-screen">
+        <div class="final-card">
+            <h2>Gửi người anh yêu nhất,</h2>
+            <p id="final-message-text">
+                Cảm ơn em vì 3 năm thanh xuân tuyệt vời đã qua. <br>
+                Hy vọng rằng 5 năm, 10 năm hay 60 năm nữa, <br>
+                người nắm tay em đi hết cuộc đời này vẫn là anh.<br><br>
+                <b>Chúc mừng kỷ niệm 3 năm của chúng ta! ❤️</b>
+            </p>
         </div>
-
     </div>
 
     <div class="music-btn" onclick="toggleMusic()">
@@ -202,74 +194,202 @@
     </audio>
 
     <script>
-        // --- 1. HIỆU ỨNG SCROLL ---
-        const items = document.querySelectorAll('.container');
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                }
-            });
-        }, { threshold: 0.1 });
-        items.forEach(item => observer.observe(item));
+        // =================================================================
+        // DỮ LIỆU ẢNH (BẠN CHỈ CẦN SỬA LỜI NHẮN Ở ĐÂY)
+        // =================================================================
 
-        // --- 2. TẠO MƯA TIM ---
+        // --- PHẦN 1: CẤP 3 (Ảnh 1-15) ---
+        const part1_data = [
+            { date: "20/05/2006", title: "Ảnh số 1", img: "photos/1.jpg", desc: "Có một cô bé tên là Nam" },
+            { date: "15/06/2006", title: "Ảnh số 2", img: "photos/2.jpg", desc: "Và một cậu nhóc tên Dũng" },
+            { date: "17/12/2022", title: "Ảnh số 3", img: "photos/3.jpg", desc: "Anh lấy hết can đảm để tỏ tình em" },
+            { date: "", title: "Ảnh số 4", img: "photos/4.jpg", desc: "Tặng em bó hoa đầu tiên" },
+            { date: "", title: "Ảnh số 5", img: "photos/5.jpg", desc: "Đây là trước khi giao thừa năm 2023, a cùng em đi ra Sầm Sơn, anh xin em cho a được nắm tay chụp làm kỉ niệm :))" },
+            { date: "", title: "Ảnh số 6", img: "photos/6.jpg", desc: "Chà.... Bánh cuốn trăm ka:))" },
+            { date: "", title: "Ảnh số 7", img: "photos/7.jpg", desc: "Lần đầu lên phố cùng em" },
+            { date: "", title: "Ảnh số 8", img: "photos/8.jpg", desc: "Vua tốc độ Nam Nam" },
+            { date: "", title: "Ảnh số 9", img: "photos/9.jpg", desc: "Con heo này cute" },
+            { date: "", title: "Ảnh số 10", img: "photos/10.jpg", desc: "Nhưng cute sao bằng em được hị hị" },
+            { date: "", title: "Ảnh số 11", img: "photos/11.jpg", desc: "Quán ruột của chúng mình" },
+            { date: "", title: "Ảnh số 12", img: "photos/12.jpg", desc: "Mùa đông năm ấy" },
+            { date: "", title: "Ảnh số 13", img: "photos/13.jpg", desc: "Cùng nhau cố gắng nha" },
+            { date: "", title: "Ảnh số 14", img: "photos/14.jpg", desc: "Nhanh thật, hết cấp 3 mất rùi :((" },
+            { date: "", title: "Ảnh số 15", img: "photos/15.jpg", desc: "Thôi, về đây a nuôi:))" },
+        ];
+
+        // --- PHẦN 2: ĐẠI HỌC (Ảnh 16-20) ---
+        const part2_data = [
+            { date: "", title: "Ảnh số 16", img: "photos/16.jpg", desc: "Đi du ngoạn Hà Nội City cùng em" },
+            { date: "", title: "Ảnh số 17", img: "photos/17.jpg", desc: "Lần đầu đi du lịch hẹ hẹ" },
+            { date: "", title: "Ảnh số 18", img: "photos/18.jpg", desc: "Đi shopping cùng e" },
+            { date: "", title: "Ảnh số 19", img: "photos/19.jpg", desc: "Đi cà phê cùng em" },
+            { date: "", title: "Ảnh số 20", img: "photos/20.jpg", desc: "Anh yêu em rất nhiều <333" },
+        ];
+
+        // =================================================================
+        // XỬ LÝ LOGIC (KHÔNG CẦN SỬA)
+        // =================================================================
+        
+        let step = 0; 
+        const overlay = document.getElementById('overlay-screen');
+        const overlayText = document.getElementById('overlay-text');
+        const overlayBtn = document.getElementById('overlay-btn');
+        const music = document.getElementById('musicPlayer');
+        const musicBtn = document.querySelector('.music-btn');
+
+        const scripts = [
+            { text: "Chào em! ❤️ Có một món quà nhỏ anh muốn gửi tặng...", btn: "Mở Quà" },
+            { text: "Đây là album nhỏ anh làm tặng em, để lưu giữ lại những kỉ niệm từ khi quen nhau.", btn: "Tiếp tục" },
+            { text: "Phần 1: Quãng thời gian cấp 3", btn: "Xem ảnh" },
+            { text: "Phần 2: Từ lúc chúng ta đậu đại học tới bây giờ", btn: "Tiếp tục" }
+        ];
+
+        window.onload = () => { typeWriter(scripts[0].text, scripts[0].btn); };
+
+        function handleButtonClick() {
+            if (step === 0) { // Intro -> Lời dẫn
+                step = 1;
+                music.play().catch(() => {});
+                musicBtn.style.display = 'flex'; musicBtn.classList.add('playing');
+                overlayText.innerHTML = ""; overlayBtn.style.display = "none";
+                typeWriter(scripts[1].text, scripts[1].btn);
+                
+            } else if (step === 1) { // Lời dẫn -> Intro Phần 1
+                step = 2;
+                overlayText.innerHTML = ""; overlayBtn.style.display = "none";
+                typeWriter(scripts[2].text, scripts[2].btn);
+
+            } else if (step === 2) { // Intro Phần 1 -> Hiện Phần 1
+                enterPart1();
+
+            } else if (step === 3) { // Intro Phần 2 -> Hiện Phần 2
+                enterPart2();
+            }
+        }
+
+        function enterPart1() {
+            overlay.classList.add('hidden');
+            document.getElementById('main-header').style.opacity = '1';
+            renderTimeline(part1_data, 'part1-container');
+            document.getElementById('btn-part2-wrapper').style.display = 'block';
+        }
+
+        function triggerPart2() {
+            step = 3;
+            overlay.classList.remove('hidden');
+            overlayText.innerHTML = ""; overlayBtn.style.display = "none";
+            typeWriter(scripts[3].text, scripts[3].btn);
+        }
+
+        function enterPart2() {
+            overlay.classList.add('hidden');
+            document.getElementById('btn-part2-wrapper').style.display = 'none';
+            renderTimeline(part2_data, 'part2-container');
+            setTimeout(() => {
+                document.getElementById('part2-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 500);
+            document.getElementById('btn-final-wrapper').style.display = 'block';
+        }
+
+        function showFinalMessage() {
+            document.getElementById('timeline-wrapper').style.opacity = '0';
+            document.getElementById('main-header').style.opacity = '0';
+            const finalScreen = document.getElementById('final-screen');
+            finalScreen.classList.add('visible');
+            setInterval(() => { createFirework(); createBurstHeart(); }, 200);
+        }
+
+        // --- Utils ---
+        function typeWriter(text, btnLabel) {
+            let i = 0;
+            overlayBtn.innerHTML = btnLabel + ' <i class="fas fa-arrow-right"></i>';
+            if(btnLabel === "Mở Quà") overlayBtn.innerHTML = '<i class="fas fa-gift"></i> Mở Quà';
+
+            function type() {
+                if (i < text.length) {
+                    overlayText.innerHTML += text.charAt(i); i++;
+                    setTimeout(type, 50);
+                } else {
+                    overlayBtn.style.display = 'inline-block';
+                }
+            }
+            type();
+        }
+
+        function renderTimeline(data, containerId) {
+            const container = document.getElementById(containerId);
+            let startIndex = 0;
+            if (containerId === 'part2-container') startIndex = part1_data.length;
+
+            data.forEach((item, index) => {
+                const actualIndex = startIndex + index;
+                const position = actualIndex % 2 === 0 ? 'left' : 'right';
+                const html = `
+                    <div class="container ${position}">
+                        <div class="content">
+                            <h2>${item.title}</h2>
+                            <span class="date">${item.date}</span>
+                            <p>${item.desc}</p>
+                            <img src="${item.img}" alt="${item.title}" loading="lazy">
+                        </div>
+                    </div>`;
+                container.innerHTML += html;
+            });
+            const items = container.querySelectorAll('.container');
+            items.forEach(item => observer.observe(item));
+        }
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); });
+        }, { threshold: 0.1 });
+
+        // Hiệu ứng nền
         function createHeart() {
             const heart = document.createElement("div");
             heart.classList.add("heart-falling");
             heart.innerHTML = "❤";
-            heart.style.left = Math.random() * 100 + "vw"; // Vị trí ngẫu nhiên chiều ngang
-            heart.style.animationDuration = Math.random() * 3 + 2 + "s"; // Tốc độ rơi ngẫu nhiên
-            heart.style.opacity = Math.random(); // Độ mờ ngẫu nhiên
-            heart.style.fontSize = Math.random() * 20 + 10 + "px"; // Kích thước ngẫu nhiên
-            
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+            heart.style.fontSize = Math.random() * 20 + 10 + "px";
             document.body.appendChild(heart);
-
-            // Xóa tim sau khi rơi xong để nhẹ web
             setTimeout(() => { heart.remove(); }, 5000);
         }
-        // Cứ 300ms tạo 1 trái tim
         setInterval(createHeart, 300);
 
-        // --- 3. XỬ LÝ NHẠC (AUTO PLAY & USER INTERACTION) ---
-        const music = document.getElementById('musicPlayer');
-        const btn = document.querySelector('.music-btn');
+        function createFirework() {
+            const fw = document.createElement("div");
+            fw.classList.add("firework");
+            fw.style.left = Math.random() * 100 + "vw";
+            fw.style.top = Math.random() * 100 + "vh";
+            fw.style.animationDuration = (Math.random() * 1 + 0.5) + "s";
+            document.getElementById('final-screen').appendChild(fw);
+            setTimeout(() => fw.remove(), 1500);
+        }
+
+        function createBurstHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart-burst");
+            heart.innerHTML = "❤";
+            heart.style.setProperty('--x', (Math.random() * 200 - 100) + "px");
+            heart.style.setProperty('--r', (Math.random() * 360) + "deg");
+            const size = Math.random() * 30 + 10;
+            heart.style.fontSize = size + "px";
+            heart.style.color = Math.random() > 0.5 ? "#ff4d6d" : "#ff9a9e";
+            document.getElementById('final-screen').appendChild(heart);
+            setTimeout(() => heart.remove(), 4000);
+        }
 
         function toggleMusic() {
             if (music.paused) {
                 music.play();
-                btn.classList.add('playing');
-                btn.innerHTML = '<i class="fas fa-pause"></i>';
+                musicBtn.classList.add('playing');
+                musicBtn.innerHTML = '<i class="fas fa-pause"></i>';
             } else {
                 music.pause();
-                btn.classList.remove('playing');
-                btn.innerHTML = '<i class="fas fa-music"></i>';
+                musicBtn.classList.remove('playing');
+                musicBtn.innerHTML = '<i class="fas fa-music"></i>';
             }
         }
-
-        // Tự động phát nhạc khi tải trang
-        window.addEventListener('load', () => {
-            // Cố gắng phát nhạc
-            const playPromise = music.play();
-            
-            if (playPromise !== undefined) {
-                playPromise.then(_ => {
-                    // Autoplay thành công
-                    btn.classList.add('playing');
-                    btn.innerHTML = '<i class="fas fa-pause"></i>';
-                })
-                .catch(error => {
-                    // Autoplay bị chặn -> Chờ người dùng click bất kỳ đâu để phát
-                    document.body.addEventListener('click', function() {
-                        if(music.paused){
-                            music.play();
-                            btn.classList.add('playing');
-                            btn.innerHTML = '<i class="fas fa-pause"></i>';
-                        }
-                    }, { once: true }); // Chỉ bắt sự kiện click 1 lần đầu tiên
-                });
-            }
-        });
     </script>
 </body>
 </html>
